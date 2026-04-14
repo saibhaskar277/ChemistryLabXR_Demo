@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fcba85f0b831a847b19cf0683767686, type: 3}
+  m_Name: Nitrogen Gas
+  m_EditorClassIdentifier: Assembly-CSharp::MoleculeData
+  moleculeType: 7
+  moleculeName: Nitrogen
+  formula: N2
+  moleculePrefab: {fileID: 8104720542313169246, guid: 7ae52159bc5f64246a135df7542d5977, type: 3}
+  description: Nitrogen gas consists of two nitrogen atoms connected by a strong
+    triple bond. It makes up about 78% of Earth's atmosphere.
+  bondType: Triple Covalent
+  bondAngle: "180\xB0 (Linear)"
+  requirements:
+  - atomType: 3
+    count: 2

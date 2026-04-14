@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fcba85f0b831a847b19cf0683767686, type: 3}
+  m_Name: Ammonia
+  m_EditorClassIdentifier: Assembly-CSharp::MoleculeData
+  moleculeType: 3
+  moleculeName: Ammonia
+  formula: 'NH3  '
+  moleculePrefab: {fileID: 8136572298708669745, guid: 1d118d7042850c64e83ee7127d564662, type: 3}
+  description: Ammonia is a molecule with one nitrogen atom bonded to three hydrogen
+    atoms. It has a trigonal pyramidal shape and is widely used in fertilizers.
+  bondType: Single Covalent
+  bondAngle: "107\xB0"
+  requirements:
+  - atomType: 3
+    count: 1
+  - atomType: 0
+    count: 3

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fcba85f0b831a847b19cf0683767686, type: 3}
+  m_Name: Oxygen Gas
+  m_EditorClassIdentifier: Assembly-CSharp::MoleculeData
+  moleculeType: 5
+  moleculeName: Oxygen
+  formula: O2
+  moleculePrefab: {fileID: 6091468115404629336, guid: 2a19e6e05df4fb74f8a36fc10f80f043, type: 3}
+  description: Oxygen gas is made of two oxygen atoms connected by a double bond.
+    It is essential for respiration in most living organisms.
+  bondType: Double Covalent
+  bondAngle: "180\xB0 (Linear)"
+  requirements:
+  - atomType: 1
+    count: 2
