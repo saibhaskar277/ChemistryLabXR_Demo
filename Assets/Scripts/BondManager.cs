@@ -33,7 +33,6 @@ public class BondManager : MonoBehaviour
         if (!currentAtoms.Contains(atom))
         {
             currentAtoms.Add(atom);
-            Debug.Log(atom.atomType + " added");
 
             CheckMolecule();
         }
@@ -44,7 +43,6 @@ public class BondManager : MonoBehaviour
         if (currentAtoms.Contains(atom))
         {
             currentAtoms.Remove(atom);
-            Debug.Log(atom.atomType + " removed");
         }
     }
 

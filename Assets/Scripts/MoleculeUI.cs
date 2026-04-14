@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class MoleculeUI : MonoBehaviour
 {
+
+    public static MoleculeUI Instance { get; private set; } 
+
     [Header("Panel")]
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private TMP_Text nameText;
@@ -10,6 +13,16 @@ public class MoleculeUI : MonoBehaviour
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text bondTypeText;
     [SerializeField] private TMP_Text bondAngleText;
+
+
+    public bool canShowMoleculeInfo { get; private set; }
+
+    private void Awake()
+    {
+        canShowMoleculeInfo = true;
+        if (Instance == null)
+            Instance = this;
+    }
 
     private void OnEnable()
     {
@@ -23,6 +36,8 @@ public class MoleculeUI : MonoBehaviour
 
         infoPanel.SetActive(true);
 
+        canShowMoleculeInfo = false;
+
         nameText.text = $"Molecule name is {data.moleculeName}";
         formulaText.text = $"Chemical formula is {data.formula}";
         descriptionText.text = $"Description: {data.description}";
@@ -33,6 +48,7 @@ public class MoleculeUI : MonoBehaviour
     private void Hide()
     {
         infoPanel.SetActive(false);
+        canShowMoleculeInfo = true;
     }
 
     private void OnDisable()

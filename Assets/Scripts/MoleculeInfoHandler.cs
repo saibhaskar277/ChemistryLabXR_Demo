@@ -48,7 +48,8 @@ public class MoleculeInfoHandler : MonoBehaviour
 
     void OnHoverEntered(HoverEnterEventArgs args)
     {
-        EventManager.RaiseEvent(new OnMoleculeCreatedEvent(moleculeData, gameObject));
+        if(MoleculeUI.Instance.canShowMoleculeInfo)
+            EventManager.RaiseEvent(new OnMoleculeCreatedEvent(moleculeData, gameObject));
     }
 
     void OnHoverExited(HoverExitEventArgs args)
