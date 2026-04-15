@@ -35,7 +35,6 @@ public class MoleculeUI : MonoBehaviour
         var data = e.moleculeData;
 
         infoPanel.SetActive(true);
-
         canShowMoleculeInfo = false;
 
         nameText.text = $"Molecule name is {data.moleculeName}";
@@ -43,12 +42,22 @@ public class MoleculeUI : MonoBehaviour
         descriptionText.text = $"Description: {data.description}";
         bondTypeText.text = $"The bond type is {data.bondType}";
         bondAngleText.text = $"The bond angle is {data.bondAngle}";
+
+        string narration =
+            $"Molecule name is {data.moleculeName}. " +
+            $"Chemical formula is {data.formula}. " + 
+            $"Description: {data.description}. " +
+            $"The bond type is {data.bondType}. " +
+            $"The bond angle is {data.bondAngle}.";
+
+        EventManager.RaiseEvent(new OnSpeechPlayEvent(narration));
     }
 
     private void Hide()
     {
         infoPanel.SetActive(false);
         canShowMoleculeInfo = true;
+        EventManager.RaiseEvent(new OnSpeechStopEvent());
     }
 
     private void OnDisable()

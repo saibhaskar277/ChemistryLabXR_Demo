@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a2e5422791d9484eacfc1d414570297, type: 3}
+  m_Name: VoiceDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::VoiceDatabaseSO
+  voices:
+  - {fileID: 11400000, guid: ffa331aa0afdabe42bdf1d275ac5f49d, type: 2}

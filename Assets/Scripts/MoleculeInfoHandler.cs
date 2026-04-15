@@ -1,59 +1,88 @@
-using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
-
 
 [RequireComponent(typeof(XRGrabInteractable))]
 public class MoleculeInfoHandler : MonoBehaviour
 {
     [SerializeField] private MoleculeType moleculeType;
 
-    XRGrabInteractable grabInteractable;
-    MoleculeData moleculeData;
+    private XRGrabInteractable grabInteractable;
+    private MoleculeData moleculeData;
+
+    private bool isHovered;
+    private bool isSelected;
+    private bool isShowing;
 
     private void Awake()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
-        EventManager.RaiseEvent( new OnMoleculeInfoRequestedEvent(moleculeType, data => moleculeData = data) );
+
+        EventManager.RaiseEvent(
+            new OnMoleculeInfoRequestedEvent(
+                moleculeType,
+                data => moleculeData = data
+            )
+        );
     }
-
-
 
     private void OnEnable()
     {
         grabInteractable.hoverEntered.AddListener(OnHoverEntered);
-        grabInteractable.selectEntered.AddListener(OnSelectEntered);
         grabInteractable.hoverExited.AddListener(OnHoverExited);
-        grabInteractable.selectExited.AddListener(OnSelectExited);   
+        grabInteractable.selectEntered.AddListener(OnSelectEntered);
+        grabInteractable.selectExited.AddListener(OnSelectExited);
     }
 
     private void OnDisable()
     {
         grabInteractable.hoverEntered.RemoveListener(OnHoverEntered);
-        grabInteractable.selectEntered.RemoveListener(OnSelectEntered);
         grabInteractable.hoverExited.RemoveListener(OnHoverExited);
+        grabInteractable.selectEntered.RemoveListener(OnSelectEntered);
         grabInteractable.selectExited.RemoveListener(OnSelectExited);
     }
 
-    void OnSelectEntered(SelectEnterEventArgs args)
+    private void RefreshUIState()
     {
-        EventManager.RaiseEvent(new OnMoleculeCreatedEvent(moleculeData, gameObject));
+        bool shouldShow = isHovered || isSelected;
+
+        if (shouldShow && !isShowing)
+        {
+            isShowing = true;
+            EventManager.RaiseEvent(
+                new OnMoleculeCreatedEvent(moleculeData, gameObject)
+            );
+        }
+        else if (!shouldShow && isShowing)
+        {
+            isShowing = false;
+            EventManager.RaiseEvent(new OnMoleculeDelectedEvent());
+        }
     }
 
-    void OnSelectExited(SelectExitEventArgs args)
+    private void OnHoverEntered(HoverEnterEventArgs args)
     {
-        EventManager.RaiseEvent(new OnMoleculeDelectedEvent());
+        if (!MoleculeUI.Instance.canShowMoleculeInfo) return;
+
+        isHovered = true;
+        RefreshUIState();
     }
 
-    void OnHoverEntered(HoverEnterEventArgs args)
+    private void OnHoverExited(HoverExitEventArgs args)
     {
-        if(MoleculeUI.Instance.canShowMoleculeInfo)
-            EventManager.RaiseEvent(new OnMoleculeCreatedEvent(moleculeData, gameObject));
+        isHovered = false;
+        RefreshUIState();
     }
 
-    void OnHoverExited(HoverExitEventArgs args)
+    private void OnSelectEntered(SelectEnterEventArgs args)
     {
-        EventManager.RaiseEvent(new OnMoleculeDelectedEvent());
+        isSelected = true;
+        RefreshUIState();
+    }
+
+    private void OnSelectExited(SelectExitEventArgs args)
+    {
+        isSelected = false;
+        RefreshUIState();
     }
 }

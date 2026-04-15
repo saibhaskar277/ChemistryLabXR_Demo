@@ -30,3 +30,29 @@ public class OnMoleculeInfoRequestedEvent: IGameEvent
         moleculeData = data;
     }
 }
+
+
+
+public class OnSpeechPlayEvent : IGameEvent
+{
+    public string text;
+
+    public OnSpeechPlayEvent(string text)
+    {
+        this.text = text;
+    }
+}
+
+public class OnSpeechStopEvent : IGameEvent
+{
+}
+
+public class OnSpeechLocalizationKeyEvent : IGameEvent
+{
+    public LocalizationKey key;
+
+    public OnSpeechLocalizationKeyEvent(LocalizationKey key)
+    {
+        this.key = key;
+    }
+}
