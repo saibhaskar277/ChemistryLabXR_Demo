@@ -14,6 +14,9 @@ This project lets users:
 
 Built with **clean architecture**, **event-driven UI**, and **data-driven content pipelines**.
 
+## 🎥 Demo
+[![Watch Demo](Demo/ChemistryLabThumbnail.png)](Demo/Chemistrylabdemo.mp4)
+
 ---
 
 # ✨ Features
