@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
 using TMPro;
 using UnityEngine;
 
@@ -8,96 +7,129 @@ public class LocalizationManager : MonoBehaviour
 {
     public static LocalizationManager Instance;
 
-    public List<LocalizationDataSO> languages;
-
+    [SerializeField] private LanguageDatabase languageDatabase;
 
     public bool IsInitialized { get; private set; }
-
     public TMP_FontAsset CurrentFontStyle { get; private set; }
 
-    public Language CurrentLanguage;
+    [SerializeField] private Language currentLanguage;
+    public Language CurrentLanguage => currentLanguage;
 
-    private Dictionary<string, string> localizedText = new();
+    private readonly Dictionary<LocalizationKey, string> localizedText = new();
+    private readonly Dictionary<LocalizationKey, string> fallbackText = new();
+
+    private Language? fallbackLanguage = null;
 
     public event Action OnLanguageChanged;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         DontDestroyOnLoad(gameObject);
 
-        var currentLanguage = languages.Find(x => x.languageName == CurrentLanguage);
+        var data = GetLanguageSO(currentLanguage);
+        LoadLanguage(data);
+    }
 
-        LoadLanguage(currentLanguage);
+    public void SetLanguage(Language language)
+    {
+        if (language == currentLanguage && IsInitialized)
+            return;
 
+        var data = GetLanguageSO(language);
+
+        if (data == null)
+        {
+            Debug.LogError($"[Localization] No LocalizationDataSO found for: {language}");
+            return;
+        }
+
+        currentLanguage = language;
+        LoadLanguage(data);
+    }
+
+    public void SetFallbackLanguage(Language language)
+    {
+        fallbackLanguage = language;
+        fallbackText.Clear();
+
+        var data = GetLanguageSO(language);
+
+        if (data == null)
+        {
+            Debug.LogWarning($"[Localization] Fallback language '{language}' not found.");
+            return;
+        }
+
+        foreach (var entry in data.entries)
+            fallbackText[entry.key] = entry.value;
+    }
+
+    private LocalizationDataSO GetLanguageSO(Language language)
+    {
+        if (languageDatabase == null)
+        {
+            Debug.LogError("[Localization] LanguageDatabaseSO is missing.");
+            return null;
+        }
+
+        return languageDatabase.languages.Find(x => x.languageName == language);
     }
 
     public void LoadLanguage(LocalizationDataSO data)
     {
         if (data == null)
         {
-            Debug.LogError("LocalizationDataSO is null!");
+            Debug.LogError("[Localization] LocalizationDataSO is null!");
             return;
         }
 
         IsInitialized = false;
-
         localizedText.Clear();
 
-        // 🔤 LOAD XML (TEXT)
-        string fileName = data.languageName.ToString().ToLower();
-        string path = LocalizationPaths.GetResourcesPath(fileName);
-        TextAsset xmlFile = Resources.Load<TextAsset>(path);
-
-        if (xmlFile == null)
+        foreach (var entry in data.entries)
         {
-            Debug.LogError($"Missing localization file: {fileName}");
-            return;
+            if (string.IsNullOrEmpty(entry.value))
+                Debug.LogWarning($"[Localization] Empty value for key '{entry.key}' in '{data.languageName}'.");
+
+            localizedText[entry.key] = entry.value;
         }
 
-        XmlDocument xmlDoc = new XmlDocument();
-        xmlDoc.LoadXml(xmlFile.text);
+        if (data.font != null)
+            CurrentFontStyle = data.font;
+        else
+            Debug.LogWarning($"[Localization] No font assigned in '{data.languageName}'.");
 
-        XmlNodeList nodes = xmlDoc.SelectNodes("Localization/Entry");
-
-        foreach (XmlNode node in nodes)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        foreach (LocalizationKey key in Enum.GetValues(typeof(LocalizationKey)))
         {
-            string key = node.Attributes["key"].Value;
-            string value = node.Attributes["value"].Value;
-
-            localizedText[key] = value;
+            if (!localizedText.ContainsKey(key))
+                Debug.LogError($"[Localization] Missing key in '{data.languageName}': {key}");
         }
-
-        // 🔥 APPLY FONT FROM SO
-        CurrentFontStyle = data.font;
-
-        // ✅ VALIDATE KEYS
-        foreach (LocalizationKey key in System.Enum.GetValues(typeof(LocalizationKey)))
-        {
-            string keyString = key.ToString();
-
-            if (!localizedText.ContainsKey(keyString))
-            {
-                Debug.LogError($"Missing key in XML: {keyString}");
-            }
-        }
+#endif
 
         IsInitialized = true;
-
         OnLanguageChanged?.Invoke();
     }
 
-
     public string GetText(LocalizationKey key)
     {
-        string keyString = key.ToString();
-
-        if (localizedText.TryGetValue(keyString, out string value))
+        if (localizedText.TryGetValue(key, out string value))
             return value;
 
-        Debug.LogError($"Missing localization key: {keyString}");
-        return $"[{keyString}]";
+        if (fallbackLanguage.HasValue && fallbackText.TryGetValue(key, out string fallback))
+        {
+            Debug.LogWarning($"[Localization] Missing '{key}' in '{currentLanguage}', using fallback.");
+            return fallback;
+        }
+
+        Debug.LogError($"[Localization] Missing key in all languages: {key}");
+        return $"[{key}]";
     }
 }

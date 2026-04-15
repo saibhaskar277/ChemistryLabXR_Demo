@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Xml;
+using UnityEditor;
+
 public static class LocalizationPaths
 {
     public const string RESOURCES_LOCALIZATION_PATH = "Localization";
@@ -16,4 +20,11 @@ public static class LocalizationPaths
     {
         return $"{RESOURCES_LOCALIZATION_PATH}/{fileName.ToLower()}";
     }
+
+
 }
+
+
+
+
+

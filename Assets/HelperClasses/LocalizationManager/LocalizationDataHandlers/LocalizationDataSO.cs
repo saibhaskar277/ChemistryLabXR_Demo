@@ -28,5 +28,6 @@ public enum Language
 
 public enum LocalizationKey
 {
-    MenuText
+    AtomLibraryText,
+    Test
 }
