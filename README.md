@@ -65,6 +65,34 @@ Stores:
 * No hardcoded UI buttons
 * Easily expandable for new atoms
 
+## 🌐 Localization System
+
+* Enum-based localization keys
+* `LocalizationDataSO` per language
+* XML export pipeline for translators
+* external language editing workflow
+* runtime language switching
+* fallback language support
+* dynamic TMP font switching
+* missing key validation
+* centralized `LocalizationManager`
+
+## 🔊 Android Voice Narration (TTS)
+
+Built-in event-driven text-to-speech narration for educational molecule learning.
+
+Features
+Native Android / Quest TTS
+free offline speech
+language-aware voice profiles
+pitch + speech rate control
+ScriptableObject voice database
+per-language voice presets
+hover narration
+stop speech on hover exit
+localized key speech support
+educational info panel narration
+
 ## 🥽 XR Hover Inspection
 
 Hover over completed molecule to display:
@@ -79,27 +107,31 @@ Hover over completed molecule to display:
 
 # 🏗️ Architecture
 
-```text
-AtomDatabase
-   ↓
-AtomSpawnUIController
-   ↓
-AtomPool
-   ↓
-XR Atom Grab
-   ↓
-BondZone
-   ↓
-BondManager
-   ↓
-MoleculeDatabase
-   ↓
-Spawn Molecule
-   ↓
-MoleculeInteractableInfo
-   ↓
-MoleculeUI
-```
+      AtomDatabase
+         ↓
+      AtomSpawnUIController
+         ↓
+      AtomPool
+         ↓
+      XR Atom Grab
+         ↓
+      BondZone
+         ↓
+      BondManager
+         ↓
+      MoleculeDatabase
+         ↓
+      Spawn Molecule
+         ↓
+      MoleculeInfoHandler
+         ↓
+      MoleculeUI
+         ↓
+      LocalizationManager
+         ↓
+      Speech Event System
+         ↓
+      Native Android TTS
 
 
 
