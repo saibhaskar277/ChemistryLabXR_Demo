@@ -29,5 +29,9 @@ public enum Language
 public enum LocalizationKey
 {
     AtomLibraryText,
-    Test
+    MoleculeName,
+    ChemicalFormula,
+    MoleculeDescription,
+    BondType,
+    BondAngle
 }

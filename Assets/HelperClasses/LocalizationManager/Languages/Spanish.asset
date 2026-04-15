@@ -18,4 +18,12 @@ MonoBehaviour:
   - key: 0
     value: "biblioteca de \xE1tomos"
   - key: 1
-    value: "biblioteca de \xE1tomos"
+    value: "El nombre de la mol\xE9cula es"
+  - key: 2
+    value: "La f\xF3rmula qu\xEDmica es"
+  - key: 3
+    value: "Descripci\xF3n:"
+  - key: 4
+    value: El tipo de enlace es
+  - key: 5
+    value: "El \xE1ngulo de enlace es"

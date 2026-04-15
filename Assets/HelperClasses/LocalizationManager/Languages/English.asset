@@ -18,4 +18,12 @@ MonoBehaviour:
   - key: 0
     value: Atom Library
   - key: 1
-    value: Atom Library
+    value: Molecule Name
+  - key: 2
+    value: Chemical Formula
+  - key: 3
+    value: 'Description :'
+  - key: 4
+    value: Bond Type
+  - key: 5
+    value: Bond Angle

@@ -33,22 +33,32 @@ public class MoleculeUI : MonoBehaviour
     private void Show(OnMoleculeCreatedEvent e)
     {
         var data = e.moleculeData;
+        var loc = LocalizationManager.Instance;
 
         infoPanel.SetActive(true);
         canShowMoleculeInfo = false;
 
-        nameText.text = $"Molecule name is {data.moleculeName}";
-        formulaText.text = $"Chemical formula is {data.formula}";
-        descriptionText.text = $"Description: {data.description}";
-        bondTypeText.text = $"The bond type is {data.bondType}";
-        bondAngleText.text = $"The bond angle is {data.bondAngle}";
+        nameText.text =
+            loc.GetText(LocalizationKey.MoleculeName) + " " + data.moleculeName;
+
+        formulaText.text =
+            loc.GetText(LocalizationKey.ChemicalFormula) + " " + data.formula;
+
+        descriptionText.text =
+            loc.GetText(LocalizationKey.MoleculeDescription) + ": " + data.description;
+
+        bondTypeText.text =
+            loc.GetText(LocalizationKey.BondType) + " " + data.bondType;
+
+        bondAngleText.text =
+            loc.GetText(LocalizationKey.BondAngle) + " " + data.bondAngle;
 
         string narration =
-            $"Molecule name is {data.moleculeName}. " +
-            $"Chemical formula is {data.formula}. " + 
-            $"Description: {data.description}. " +
-            $"The bond type is {data.bondType}. " +
-            $"The bond angle is {data.bondAngle}.";
+            $"{nameText.text}. " +
+            $"{formulaText.text}. " +
+            $"{descriptionText.text}. " +
+            $"{bondTypeText.text}. " +
+            $"{bondAngleText.text}.";
 
         EventManager.RaiseEvent(new OnSpeechPlayEvent(narration));
     }
