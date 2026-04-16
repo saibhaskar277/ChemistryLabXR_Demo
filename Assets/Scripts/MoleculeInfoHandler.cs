@@ -50,7 +50,7 @@ public class MoleculeInfoHandler : MonoBehaviour
         {
             isShowing = true;
             EventManager.RaiseEvent(
-                new OnMoleculeCreatedEvent(moleculeData, gameObject)
+                new OnMoleculeHoveredEvent(moleculeData)
             );
         }
         else if (!shouldShow && isShowing)

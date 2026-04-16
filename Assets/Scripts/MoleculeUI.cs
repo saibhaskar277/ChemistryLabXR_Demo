@@ -26,11 +26,11 @@ public class MoleculeUI : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.ListenEvent<OnMoleculeCreatedEvent>(Show);
+        EventManager.ListenEvent<OnMoleculeHoveredEvent>(Show);
         EventManager.ListenEvent<OnMoleculeDelectedEvent>(e => Hide());
     }
 
-    private void Show(OnMoleculeCreatedEvent e)
+    private void Show(OnMoleculeHoveredEvent e)
     {
         var data = e.moleculeData;
         var loc = LocalizationManager.Instance;
@@ -72,7 +72,7 @@ public class MoleculeUI : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager.StopListening<OnMoleculeCreatedEvent>(Show);
+        EventManager.StopListening<OnMoleculeHoveredEvent>(Show);
         EventManager.StopListening<OnMoleculeDelectedEvent>(e => Hide());
     }
 

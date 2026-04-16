@@ -4,11 +4,11 @@
 using System;
 using UnityEngine;
 
-public class OnMoleculeCreatedEvent: IGameEvent
+public class OnMoleculeHoveredEvent: IGameEvent
 {
     public MoleculeData moleculeData;
 
-    public OnMoleculeCreatedEvent(MoleculeData data, GameObject obj)
+    public OnMoleculeHoveredEvent(MoleculeData data)
     {
         moleculeData = data;
     }
@@ -19,6 +19,14 @@ public class OnMoleculeDelectedEvent: IGameEvent
 
 }
 
+public struct OnAtomAddedEvent: IGameEvent
+{
+    public AtomType atomType;
+    public OnAtomAddedEvent(AtomType type)
+    {
+        atomType = type;
+    }
+}
 public class OnMoleculeInfoRequestedEvent: IGameEvent
 {
     public MoleculeType moleculeType;   
